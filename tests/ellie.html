@@ -1,0 +1,12 @@
+<!DOCTYPE html><meta charset="utf-8"><script type="module">
+// Asks Ellie a batch of real-world questions and reports the answers (plain text).
+import { reply } from "../js/assistant.js";
+const qs = ["hi", "what do you offer?", "how much is a massage", "how much is cupping", "do you take insurance", "I have sciatica, can you help?",
+  "my son plays soccer and has knee pain", "is thai massage done clothed?", "how long is it", "how much is it", "where are you located", "is there parking",
+  "what are your hours", "I'm pregnant, can I book?", "I'm on blood thinners", "will cupping leave marks", "who is the therapist", "do you sell gift cards",
+  "what should I wear for stretch therapy", "first time, what should I expect", "can I cancel my appointment", "do you do hot stone massage?", "my grandma has arthritis",
+  "plantar fasciitis", "I get migraines", "how often should I come", "do you have packages", "my daughter is autistic and sensitive to touch", "thanks!", "what is SET?"];
+let ctx = {}; const out = [];
+for (const q of qs) { const r = reply(q, ctx); ctx = r.ctx; const d = document.createElement("div"); d.innerHTML = r.html; out.push(`Q: ${q}\nA: ${d.textContent.replace(/\s+/g, " ").slice(0, 260)}\n   chips: ${(r.chips||[]).join(" | ")}`); }
+fetch("/log", { method: "POST", body: out.join("\n\n") });
+</script>
